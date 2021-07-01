@@ -1,32 +1,44 @@
+/**
+ * ----  Puzzle Game  ----
+ * Made By: Alexandre Tavares & Diogo Guedes TPSI1020 PL
+ * Github: https://github.com/TheRedCandyy/PuzzleGame
+ * Description: A school project for ATEC with the purpose of simulating a puzzle game.
+ */
+import java.io.IOException;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
  
 public class App extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
     @Override
-    public void start(Stage primaryStage) {
-        primaryStage.setTitle("Hello World!");
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
- 
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Hello World!");
-            }
-        });
-        
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
-        primaryStage.setScene(new Scene(root, 300, 250));
+    public void start(Stage primaryStage) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("./DesignFXML.fxml"));
+        Parent root = fxmlLoader.load();
+        Scene screen = new Scene(root);
+        String style = getClass().getResource("mycss.css").toExternalForm();
+        screen.getStylesheets().add(style);
+
+        /*File file = new File("../img/capa.jpg");
+        Image image = new Image(file.toURI().toString());
+        ImageView imageView = new ImageView(image);
+        mainPageAnchor.getChildren().add(imageView);*/
+
+        primaryStage.setTitle("Puzzle Game");
+        primaryStage.setScene(screen);
+        primaryStage.setResizable(false);
         primaryStage.show();
+
+        //Coloca a aplicação no centro do ecrã
+        Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
+        primaryStage.setX((primScreenBounds.getWidth() - primaryStage.getWidth()) / 2);
+        primaryStage.setY((primScreenBounds.getHeight() - primaryStage.getHeight()) / 2);
     }
 }

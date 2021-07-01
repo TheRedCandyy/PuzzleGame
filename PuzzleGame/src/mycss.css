@@ -1,0 +1,12 @@
+#gameBtn{
+    -fx-background-color: #b7b7a4; 
+    -fx-text-align: center; 
+    -fx-color: white;
+    -fx-border-color:black;
+    -fx-border-width: 3px;
+    -fx-border-style: solid;
+}
+#gameBtn:hover{
+    -fx-background-color: #9c6644;
+    -fx-color: black;
+}
