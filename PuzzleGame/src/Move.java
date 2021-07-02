@@ -1,6 +1,6 @@
 /*
     +-------------------------------------------------------+
-    |                       Moves                           |
+    |                       MOVE                            |
     +-------------------------------------------------------+
     |                                                       |
     |   - moveId            :  int                          |
@@ -14,10 +14,10 @@
 
 public class Move {
 
-    private int moveId; // Guarda o id da jogada
-    private int coordX; // Coordenada X
-    private int coordY; // Coordenada Y
-    private int game; // ID do jogo
+    private int moveId;  // Guarda o id da jogada
+    private int coordX;  // Coordenada X
+    private int coordY;  // Coordenada Y
+    private int game;    // ID do jogo
 
     /* ############ CONSTRUTORES ############ */
     public Move(int moveId, int coordX, int coordY, int game) {

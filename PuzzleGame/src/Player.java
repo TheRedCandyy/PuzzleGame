@@ -13,10 +13,10 @@
 
 public class Player {
 
-    private String name; // Nome do jogador
-    private int gameTime; // Integer que guarda os segundo do jogo
-    private int game; // ID do jogo
-    private String category; // Categoria do jogo
+    private String name;      // Nome do jogador
+    private int gameTime;     // Integer que guarda os segundo do jogo
+    private int game;         // ID do jogo
+    private String category;  // Categoria do jogo
 
     /* ############ CONSTRUTORES ############ */
     public Player(String name, int gameTime, int game, String category) {
