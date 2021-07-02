@@ -6,17 +6,17 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Launch Current File",
+            "name": "Launch App",
             "request": "launch",
-            "mainClass": "${file}"
+            "vmArgs": "--module-path E:\\JavaFXSDK\\javafx-sdk-11.0.2\\lib --add-modules=javafx.controls,javafx.fxml",
+            "mainClass": "App",
+            "projectName": "PuzzleGame_d95435b6"
         },
         {
             "type": "java",
-            "name": "Launch App",
+            "name": "Launch Current File",
             "request": "launch",
-            "vmArgs": "--module-path E:\\JavaFXSDK\\javafx-sdk-11.0.2\\lib --add-modules=javafx.controls,javafx.fxml,javafx.graphics",
-            "mainClass": "App",
-            "projectName": "PuzzleGame_87244c62"
+            "mainClass": "${file}"
         }
     ]
 }
