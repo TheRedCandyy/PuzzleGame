@@ -83,7 +83,97 @@ public class Controller implements Initializable{
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 if (e.getSource() == bt[i][j]) {
-                    System.out.println("Button clicked: " + bt[i][j].getText());
+                    if (i == 0 && j == 0) {
+                        if (bt[i+1][j].getText() == "") {
+                            bt[i+1][j].setText(bt[i][j].getText());
+                            bt[i][j].setText("");
+                        }else if(bt[i][j+1].getText() == ""){
+                            bt[i][j+1].setText(bt[i][j].getText());
+                            bt[i][j].setText("");
+                        }
+                    }else if(i == 0 && j == 4){
+                        if (bt[i+1][j].getText() == "") {
+                            bt[i+1][j].setText(bt[i][j].getText());
+                            bt[i][j].setText("");
+                        }else if(bt[i][j-1].getText() == ""){
+                            bt[i][j-1].setText(bt[i][j].getText());
+                            bt[i][j].setText("");
+                        }
+                    }else if(i == 4 && j == 0){
+                        if (bt[i-1][j].getText() == "") {
+                            bt[i-1][j].setText(bt[i][j].getText());
+                            bt[i][j].setText("");
+                        }else if(bt[i][j+1].getText() == ""){
+                            bt[i][j+1].setText(bt[i][j].getText());
+                            bt[i][j].setText("");
+                        }
+                    }else if(i == 4 && j == 4){
+                        if (bt[i-1][j].getText() == "") {
+                            bt[i-1][j].setText(bt[i][j].getText());
+                            bt[i][j].setText("");
+                        }else if(bt[i][j-1].getText() == ""){
+                            bt[i][j-1].setText(bt[i][j].getText());
+                            bt[i][j].setText("");
+                        }
+                    }else if(i == 0){
+                        if (bt[i+1][j].getText() == "") {
+                            bt[i+1][j].setText(bt[i][j].getText());
+                            bt[i][j].setText("");
+                        }else if(bt[i][j+1].getText() == ""){
+                            bt[i][+1].setText(bt[i][j].getText());
+                            bt[i][j].setText("");
+                        }else if(bt[i][j-1].getText() == ""){
+                            bt[i][-1].setText(bt[i][j].getText());
+                            bt[i][j].setText("");
+                        }
+                    }else if(i == 4){
+                        if (bt[i-1][j].getText() == "") {
+                            bt[i-1][j].setText(bt[i][j].getText());
+                            bt[i][j].setText("");
+                        }else if(bt[i][j+1].getText() == ""){
+                            bt[i][j+1].setText(bt[i][j].getText());
+                            bt[i][j].setText("");
+                        }else if(bt[i][j-1].getText() == ""){
+                            bt[i][j-1].setText(bt[i][j].getText());
+                            bt[i][j].setText("");
+                        }
+                    }else if(j == 0){
+                        if (bt[i][j+1].getText() == "") {
+                            bt[i][j+1].setText(bt[i][j].getText());
+                            bt[i][j].setText("");
+                        }else if(bt[i+1][j].getText() == ""){
+                            bt[i+1][j].setText(bt[i][j].getText());
+                            bt[i][j].setText("");
+                        }else if(bt[i-1][j].getText() == ""){
+                            bt[i-1][j].setText(bt[i][j].getText());
+                            bt[i][j].setText("");
+                        }
+                    }else if(j == 4){
+                        if (bt[i][j-1].getText() == "") {
+                            bt[i][j-1].setText(bt[i][j].getText());
+                            bt[i][j].setText("");
+                        }else if(bt[i+1][j].getText() == ""){
+                            bt[i+1][j].setText(bt[i][j].getText());
+                            bt[i][j].setText("");
+                        }else if(bt[i-1][j].getText() == ""){
+                            bt[i-1][j].setText(bt[i][j].getText());
+                            bt[i][j].setText("");
+                        }
+                    }else{
+                        if (bt[i+1][j].getText() == "") {
+                            bt[i+1][j].setText(bt[i][j].getText());
+                            bt[i][j].setText("");
+                        }else if(bt[i][j+1].getText() == ""){
+                            bt[i][j+1].setText(bt[i][j].getText());
+                            bt[i][j].setText("");
+                        }else if(bt[i-1][j].getText() == ""){
+                            bt[i-1][j].setText(bt[i][j].getText());
+                            bt[i][j].setText("");
+                        }else if(bt[i][j-1].getText() == ""){
+                            bt[i][j-1].setText(bt[i][j].getText());
+                            bt[i][j].setText("");
+                        }
+                    }
                 }
             }
         }
