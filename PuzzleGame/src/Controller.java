@@ -12,8 +12,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -63,6 +68,44 @@ public class Controller implements Initializable{
         }
     }
 
+    @FXML
+    void quitGame(ActionEvent event) {
+        System.gc();
+        System.exit(1);
+    }
+
+    @FXML
+    void aboutAuthors(ActionEvent event) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Authors");
+        alert.setHeaderText("July 2021\nTPSI PL 1020");
+        alert.setContentText("Alexandre Tavares\nDiogo Guedes");
+        alert.showAndWait().ifPresent(rs -> {
+        });
+        
+    }
+
+    @FXML
+    void aboutLaunguage(ActionEvent event) {
+        //Dialogo
+        Dialog<String> dialog = new Dialog<String>();
+        dialog.setTitle("Language");
+        ButtonType type = new ButtonType("Ok", ButtonData.OK_DONE);
+        dialog.setContentText("This software was created using java language.\n\nThis software was developed using javaFX in Version 11.0.2 and was used SceneBuilder in Version 8.2.");
+        dialog.getDialogPane().getButtonTypes().add(type);
+        dialog.showAndWait();
+    }
+
+    @FXML
+    void aboutSoftware(ActionEvent event) {
+        //Dialogo
+        Dialog<String> dialog = new Dialog<String>();
+        dialog.setTitle("Language");
+        ButtonType type = new ButtonType("Ok", ButtonData.OK_DONE);
+        dialog.setContentText("This software was created using as a school project in ATEC.\n\nThe aim was to recreate a popular known game, where the objective is to order the pieces of a puzzle.");
+        dialog.getDialogPane().getButtonTypes().add(type);
+        dialog.showAndWait();
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb){
         drawButtons();

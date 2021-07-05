@@ -85,7 +85,7 @@
                      </accelerator>
                   </MenuItem>
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Quit Game">
+                  <MenuItem fx:id="quitMenuItem" mnemonicParsing="false" onAction="#quitGame" text="Quit Game">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator>
@@ -94,10 +94,10 @@
             </Menu>
             <Menu mnemonicParsing="false" text="About">
                <items>
-                  <MenuItem fx:id="languageMenuItem" mnemonicParsing="false" text="Language" />
-                  <MenuItem fx:id="softwareMenuItem" mnemonicParsing="false" text="Software" />
+                  <MenuItem fx:id="languageMenuItem" mnemonicParsing="false" onAction="#aboutLaunguage" text="Language" />
+                  <MenuItem fx:id="softwareMenuItem" mnemonicParsing="false" onAction="#aboutSoftware" text="Software" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem fx:id="authorsMenuItem" mnemonicParsing="false" text="Authors" />
+                  <MenuItem fx:id="authorsMenuItem" mnemonicParsing="false" onAction="#aboutAuthors" text="Authors" />
                </items>
             </Menu>
          </menus>
