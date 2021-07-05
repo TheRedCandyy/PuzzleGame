@@ -10,6 +10,14 @@
             "request": "launch",
             "vmArgs": "--module-path E:\\JavaFXSDK\\javafx-sdk-11.0.2\\lib --add-modules=javafx.controls,javafx.fxml",
             "mainClass": "App",
+            "projectName": "PuzzleGame_87244c62"
+        },
+        {
+            "type": "java",
+            "name": "Launch App",
+            "request": "launch",
+            "vmArgs": "--module-path E:\\JavaFXSDK\\javafx-sdk-11.0.2\\lib --add-modules=javafx.controls,javafx.fxml",
+            "mainClass": "App",
             "projectName": "PuzzleGame_d95435b6"
         },
         {

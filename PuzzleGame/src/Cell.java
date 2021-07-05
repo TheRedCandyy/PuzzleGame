@@ -1,3 +1,5 @@
+import javafx.scene.control.Button;
+
 /*
     +-------------------------------------------------------+
     |                     BUTTON                            |
@@ -6,26 +8,24 @@
     |   - btnText           :  string                       |
     |   - coordX            :  int                          |
     |   - coordY            :  int                          |
-    |   - empty             :  boolean                      |
+    |   - hole             :  boolean                      |
     |                                                       |
     +-------------------------------------------------------+
  */
-public class Button {
+public class Cell extends Button{
 
     private String btnText;    // Guarda o texto do botão
-    private int coordX;        // Coordenada X
-    private int coordY;        // Coordenada Y
-    private boolean empty;     // Indica se o botão está ocupado 
+    private int position;     // Posicao
+    private boolean hole;     // Indica se o botão está ocupado 
 
     /* ############ CONSTRUTORES ############ */
-    public Button() {
+    public Cell() {
     }
 
-    public Button(String btnText, int coordX, int coordY, boolean empty) {
+    public Cell(String btnText, int position, boolean hole) {
         this.btnText = btnText;
-        this.coordX = coordX;
-        this.coordY = coordY;
-        this.empty = empty;
+        this.position = position;
+        this.hole = hole;
     }
 
     /* ############ METODOS GET E SET ############ */
@@ -34,16 +34,12 @@ public class Button {
         return btnText;
     }
 
-    public int getCoordX() {
-        return coordX;
+    public int getPosition() {
+        return position;
     }
 
-    public int getCoordY() {
-        return coordY;
-    }
-
-    public boolean isEmpty() {
-        return empty;
+    public boolean ishole() {
+        return hole;
     }
 
     // Metodos SET
@@ -51,15 +47,11 @@ public class Button {
         this.btnText = btnText;
     }
 
-    public void setCoordX(int coordX) {
-        this.coordX = coordX;
+    public void setPosition(int position) {
+        this.position = position;
     }
 
-    public void setCoordY(int coordY) {
-        this.coordY = coordY;
-    }
-
-    public void setEmpty(boolean empty) {
-        this.empty = empty;
+    public void sethole(boolean hole) {
+        this.hole = hole;
     }
 }
