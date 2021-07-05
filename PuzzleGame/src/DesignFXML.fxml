@@ -32,7 +32,6 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -54,11 +53,11 @@
                <items>
                   <Menu mnemonicParsing="false" text="Game options">
                      <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
+                        <MenuItem fx:id="menuDecimal" mnemonicParsing="false" onAction="#setDecimalGame" text="Decimal" />
                      </items>
                   </Menu>
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Play Game">
+                  <MenuItem fx:id="menuPlayGame" mnemonicParsing="false" onAction="#startGame" text="Play Game">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="J" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator>
@@ -109,11 +108,7 @@
               <tabs>
                 <Tab text="Main Page">
                   <content>
-                    <AnchorPane id="mainPageTabPane" fx:id="mainPageAnchor" minHeight="0.0" minWidth="0.0" prefHeight="408.0" prefWidth="708.0" style="-fx-background-color: #F4E9CD;">
-                           <children>
-                              <Button fx:id="testingButton" layoutX="427.0" layoutY="301.0" mnemonicParsing="false" onAction="#testingAction" prefHeight="64.0" prefWidth="170.0" text="TESTING BUTTON CLICK" />
-                           </children>
-                        </AnchorPane>
+                    <AnchorPane id="mainPageTabPane" fx:id="mainPageAnchor" minHeight="0.0" minWidth="0.0" prefHeight="408.0" prefWidth="708.0" style="-fx-background-color: #F4E9CD;" />
                   </content>
                 </Tab>
                 <Tab text="Game">
