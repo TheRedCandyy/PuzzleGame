@@ -30,12 +30,25 @@ public class Controller implements Initializable{
 
     // Butões
     Button bt[] = new Button[25];
-    String stbtDec[] = {"0", "", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"};
+    String stbtDec[] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", ""};
+    String stbtRom[] = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX", "XX", "XXI", "XXII", "XXIII", "XXIV", ""};
+    String stbtAlph[] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", ""};
+    String stbtHex[] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "10", "11", "12", "13", "14", "15", "16", "17", ""};
+    String stbtCat[];
     List <Cell> lstCell = new ArrayList<Cell>();
 
     // FXML
     @FXML
     private MenuItem menuDecimal;
+
+    @FXML
+    private MenuItem menuHexadecimal;
+
+    @FXML
+    private MenuItem menuAlphabet;
+
+    @FXML
+    private MenuItem menuRoman;
 
     @FXML
     private MenuItem menuPlayGame;
@@ -58,9 +71,32 @@ public class Controller implements Initializable{
     //Define o tipo de jogo como decimal e corre o metodo `changeGameType` que popula a classe e os butoes
     @FXML
     void setDecimalGame(ActionEvent event) {
-        changeGameType("Decimal");
+        stbtCat = stbtDec;
+        changeGameType();
+    }
+
+    //Define o tipo de jogo como romano e corre o metodo `changeGameType` que popula a classe e os butoes
+    @FXML
+    void setRomanGame(ActionEvent event) {
+        stbtCat = stbtRom;
+        changeGameType();
+    }
+
+    //Define o tipo de jogo como alfabeto e corre o metodo `changeGameType` que popula a classe e os butoes
+    @FXML
+    void setAlphabetGame(ActionEvent event) {
+        stbtCat = stbtAlph;
+        changeGameType();
+    }
+
+    //Define o tipo de jogo como hexadecimal e corre o metodo `changeGameType` que popula a classe e os butoes
+    @FXML
+    void setHexadecimalGame(ActionEvent event) {
+        stbtCat = stbtHex;
+        changeGameType();
     }
     
+    //Começa um jogo
     @FXML
     void startGame(ActionEvent event) {
         for (int i = 0; i < 25; i++) {
@@ -139,43 +175,37 @@ public class Controller implements Initializable{
     }
 
     //Faz a reordenação aleatoria da string com o texto para os butoes
-    void randomizeBtnData(String gameType){
-		List<String> intList = Arrays.asList(stbtDec);
+    void randomizeBtnData(){
+		List<String> intList = Arrays.asList(stbtCat);
 		Collections.shuffle(intList);
-		intList.toArray(stbtDec);
+		intList.toArray(stbtCat);
     }
 
     //Popula a classe dos butões
-    void populateClass(String gameType){
+    void populateClass(){
         lstCell.clear();
         Cell c;
         for (int i = 0; i < 25; i++) {
-            if (stbtDec[i].equals("")) {
-                c = new Cell(stbtDec[i], i, true);
+            if (stbtCat[i].equals("")) {
+                c = new Cell(stbtCat[i], i, true);
             }else{
-                c = new Cell(stbtDec[i], i, false);
+                c = new Cell(stbtCat[i], i, false);
             }
             lstCell.add(c);
         }
     }
 
     //Coloca o texto nos butões
-    void addButtonText(String gameType){
+    void addButtonText(){
         for (int i = 0; i < 25; i++) {
             bt[i].setText(lstCell.get(i).getBtnText());
         }
     }
 
-    void changeGameType(String gameType){
-        switch (gameType) {
-            case "Decimal":
-                //randomizeBtnData(gameType);
-                populateClass(gameType);
-                addButtonText(gameType);
-                break;
-            default:
-                break;
-        }
+    void changeGameType(){
+        randomizeBtnData();
+        populateClass();
+        addButtonText();
     }
     
     void btnClick(ActionEvent e){
