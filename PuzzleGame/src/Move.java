@@ -4,9 +4,7 @@
     +-------------------------------------------------------+
     |                                                       |
     |   - moveId            :  int                          |
-    |   - playerName        :  string                       |
-    |   - coordX            :  int                          |
-    |   - coordY            :  int                          |
+    |   - position          :  int                          |
     |   - game              :  int                          |
     |                                                       |
     +-------------------------------------------------------+
@@ -15,15 +13,13 @@
 public class Move {
 
     private int moveId;  // Guarda o id da jogada
-    private int coordX;  // Coordenada X
-    private int coordY;  // Coordenada Y
+    private int position;// Posicao
     private int game;    // ID do jogo
 
     /* ############ CONSTRUTORES ############ */
-    public Move(int moveId, int coordX, int coordY, int game) {
+    public Move(int moveId, int position, int game) {
         this.moveId = moveId;
-        this.coordX = coordX;
-        this.coordY = coordY;
+        this.position = position;
         this.game = game;
     }
 
@@ -33,12 +29,8 @@ public class Move {
         return moveId;
     }
 
-    public int getCoordX() {
-        return coordX;
-    }
-
-    public int getCoordY() {
-        return coordY;
+    public int getPosition() {
+        return position;
     }
 
     public int getGame() {
@@ -50,12 +42,8 @@ public class Move {
         this.moveId = moveId;
     }
 
-    public void setCoordX(int coordX) {
-        this.coordX = coordX;
-    }
-
-    public void setCoordY(int coordY) {
-        this.coordY = coordY;
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     public void setGame(int game) {
