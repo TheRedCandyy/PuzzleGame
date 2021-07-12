@@ -64,6 +64,9 @@
                   <Menu mnemonicParsing="false" text="Game options">
                      <items>
                         <MenuItem fx:id="menuDecimal" mnemonicParsing="false" onAction="#setDecimalGame" text="Decimal" />
+                        <MenuItem fx:id="menuHexadecimal" mnemonicParsing="false" onAction="#setHexadecimalGame" text="Hexadecimal" />
+                        <MenuItem fx:id="menuAlphabet" mnemonicParsing="false" onAction="#setAlphabetGame" text="Alphabet" />
+                        <MenuItem fx:id="menuRoman" mnemonicParsing="false" onAction="#setRomanGame" text="Roman" />
                      </items>
                   </Menu>
                   <SeparatorMenuItem mnemonicParsing="false" />
