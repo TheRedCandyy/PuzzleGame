@@ -1,5 +1,3 @@
-import java.nio.channels.GatheringByteChannel;
-
 /*
     +-------------------------------------------------------+
     |                      PLAYER                           |
@@ -17,13 +15,13 @@ public class Player {
 
     private String firstName;   // Nome do jogador
     private String lastName;    // Apelido do jogador
-    private int gameTime;       // Integer que guarda os segundo do jogo
+    private String gameTime;       // Integer que guarda os segundo do jogo
     private int game;           // ID do jogo
     private String date;        // Data em que o jogo ocorreu    
     private String category;    // Categoria do jogo
 
     /* ############ CONSTRUTORES ############ */
-    public Player(String firstName, String lastName, int gameTime, int game, String date ,String category) {
+    public Player(String firstName, String lastName, String gameTime, int game, String date ,String category) {
         
         this.firstName = firstName;
         this.lastName = lastName;
@@ -84,6 +82,6 @@ public class Player {
     @Override
     public String toString() {
         // TODO Auto-generated method stub
-        return String.format(name + " - " + gameTime + " - " + game + " - " + category);
+        return String.format(firstName + " " + lastName + " - " + gameTime + " - " + game + " - " + category);
     }
 }
