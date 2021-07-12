@@ -65,9 +65,12 @@ public class Controller implements Initializable{
     static int dev;
     static boolean ligacaoDB = false;
 
+    //Date formater - Utilizado para formatar a data no "DB connection Status"
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");  
 
+    //Array List de jogadores - Utilizado para popular a listView
     final ObservableList<Player> jogadores =  FXCollections.observableArrayList();
+        
   
     //Dados relacionados ao funcionamento do jogo
     int movesAmount = 0;
@@ -196,12 +199,14 @@ public class Controller implements Initializable{
         gameID++;
     }
 
+    //Encerra a aplicação
     @FXML
     void quitGame(ActionEvent event) {
         System.gc();
         System.exit(1);
     }
 
+    //Abre um Pop-Up com a informação dos autores da aplicação
     @FXML
     void aboutAuthors(ActionEvent event) {
         Alert alert = new Alert(AlertType.INFORMATION);
@@ -213,6 +218,7 @@ public class Controller implements Initializable{
         
     }
 
+    //Abre um Pop-Up com a informação da linguagem utilizada para desenvolver a aplicação
     @FXML
     void aboutLaunguage(ActionEvent event) {
         //Dialogo
@@ -224,6 +230,7 @@ public class Controller implements Initializable{
         dialog.showAndWait();
     }
 
+    //Abre um Pop-Up com infromação sobre a aplicação
     @FXML
     void aboutSoftware(ActionEvent event) {
         //Dialogo
@@ -247,26 +254,29 @@ public class Controller implements Initializable{
         // mainPageAnchor.getChildren().add(imgv);
     }*/
 
+    //Botão de refresh das estatisticas
     @FXML
     void refreshStats(ActionEvent event){
         //Reconecção com a base de dados e posteriro população da tabela de records
         connectToDatabase();
     }
+
+    
     @FXML
     void DeleteStat(ActionEvent event){
 
     }
 
+    //Função que realiza a connecção com a base de dados
     void connectToDatabase(){
         try {
-
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://localhost/puzzlegame","root","");
             ligacaoDB = true;
             
            if (ligacaoDB){ //Se existir uma conecção com sucesso
                 //Alteração da label de status da conecção
-                labelDbStatus.setText("Connected");
+                labelDbStatus.setText("● Connected");
                 labelDbStatus.setTextFill(Color.web("green", 1));
                 //População da tabela de resultados
                 drawStatsTable();
@@ -282,18 +292,16 @@ public class Controller implements Initializable{
             exc.printStackTrace();
             ligacaoDB = false;
             //Alteração da label de status da conecção
-            labelDbStatus.setText("Disconnected");
+            labelDbStatus.setText("● Disconnected");
             labelDbStatus.setTextFill(Color.web("red", 1));
         }
     }
 
-    
+    //Função que popula a tabela das estatisticas com dados da base de dados
     void drawStatsTable(){
 
         statsTable.setId("statsTable");
-
         jogadores.clear();
-
         String queryPlayerStats = "SELECT * FROM playerStats_OrdBy_Name";
         
         try{
@@ -316,7 +324,6 @@ public class Controller implements Initializable{
             e.printStackTrace();
         }
         
-
         tableColFirstName.setCellValueFactory(
             new PropertyValueFactory<Player,String>("firstName") );
 
