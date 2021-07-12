@@ -6,9 +6,8 @@ import javafx.scene.control.Button;
     +-------------------------------------------------------+
     |                                                       |
     |   - btnText           :  string                       |
-    |   - coordX            :  int                          |
-    |   - coordY            :  int                          |
-    |   - hole             :  boolean                      |
+    |   - position          :  int                          |
+    |   - hole              :  boolean                      |
     |                                                       |
     +-------------------------------------------------------+
  */
