@@ -1,16 +1,18 @@
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
-
 import com.mysql.jdbc.Connection;
 import java.sql.*;
 import java.sql.Date;
-
 import java.time.format.DateTimeFormatter;  
 import java.time.LocalDateTime; 
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -49,21 +51,32 @@ public class Controller implements Initializable{
     String stbtRom[] = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX", "XX", "XXI", "XXII", "XXIII", "XXIV", ""};
     String stbtAlph[] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", ""};
     String stbtHex[] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "10", "11", "12", "13", "14", "15", "16", "17", ""};
+    String stbtTesting[] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "", "23"};
     String stbtCat[];
+    String currentGameType;
     List <Cell> lstCell = new ArrayList<Cell>();
+    List <Move> lstMove = new ArrayList<Move>();
     List <Player> lstPlayer = new ArrayList<Player>();
 
-    //Dados realcionados com a base de dados
+    //Dados relacionados com a base de dados
     static java.sql.Connection conn;
-	static Statement st ;
-	static ResultSet rs ;
+	  static Statement st ;
+	  static ResultSet rs ;
     static int dev;
     static boolean ligacaoDB = false;
 
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");  
 
     final ObservableList<Player> jogadores =  FXCollections.observableArrayList();
-        
+  
+    //Dados relacionados ao funcionamento do jogo
+    int movesAmount = 0;
+    int gameID = 0;
+    String playerName = "";
+
+    long tempoInicial;
+    long tempoFinal;
+    long duracaoJogo;
 
     // FXML
     @FXML
@@ -144,6 +157,7 @@ public class Controller implements Initializable{
     void setDecimalGame(ActionEvent event) {
         stbtCat = stbtDec;
         changeGameType();
+        currentGameType = "Decimal";
     }
 
     //Define o tipo de jogo como romano e corre o metodo `changeGameType` que popula a classe e os butoes
@@ -151,6 +165,7 @@ public class Controller implements Initializable{
     void setRomanGame(ActionEvent event) {
         stbtCat = stbtRom;
         changeGameType();
+        currentGameType = "Roman";
     }
 
     //Define o tipo de jogo como alfabeto e corre o metodo `changeGameType` que popula a classe e os butoes
@@ -158,6 +173,7 @@ public class Controller implements Initializable{
     void setAlphabetGame(ActionEvent event) {
         stbtCat = stbtAlph;
         changeGameType();
+        currentGameType = "Alphabet";
     }
 
     //Define o tipo de jogo como hexadecimal e corre o metodo `changeGameType` que popula a classe e os butoes
@@ -165,14 +181,19 @@ public class Controller implements Initializable{
     void setHexadecimalGame(ActionEvent event) {
         stbtCat = stbtHex;
         changeGameType();
+        currentGameType = "Hexadecimal";
     }
     
     //Começa um jogo
     @FXML
     void startGame(ActionEvent event) {
+        tempoInicial = System.currentTimeMillis();
+        playerName = "NAME UNDEFINED";
         for (int i = 0; i < 25; i++) {
                 bt[i].setDisable(false);
         }
+        movesAmount = 0;
+        gameID++;
     }
 
     @FXML
@@ -318,15 +339,15 @@ public class Controller implements Initializable{
     void drawButtons() {
         // Game Panel Layout
         gamePagePane.setAlignment(Pos.TOP_CENTER);
-        gamePagePane.setPadding(new Insets(30, 30, 30, 30));
+        gamePagePane.setPadding(new Insets(5, 25, 5, 25));
         //Add buttons to grid
         int count = 0;
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 bt[count] = new Button("");
-                bt[count].setPrefSize(120, 90);
+                bt[count].setPrefSize(180, 120);
                 bt[count].setId("gameBtn");
-                bt[count].setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.REGULAR, 24));
+                bt[count].setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.REGULAR, 26));
                 bt[count].setAlignment(Pos.CENTER);
                 bt[count].setOnAction(this::btnClick);
                 bt[count].setDisable(true);
@@ -563,7 +584,74 @@ public class Controller implements Initializable{
                         bt[i+1].setText(lstCell.get(i+1).getBtnText());
                     }
                 }
+                if(lstCell.get(i).ishole()){
+                    Move m  = new Move(movesAmount, lstCell.get(i).getPosition(), gameID);
+                    lstMove.add(m);
+                    movesAmount++;
+                }
             }
         }
+        if(checkGame()){
+            endGame();
+        }
+    }
+
+    //Esta função corre quando o jogador completou o jogo.
+    void endGame(){
+        //Desativação dos butões
+        for (int i = 0; i < bt.length; i++) {
+            bt[i].setDisable(true);
+        }
+        
+        //Calculo do tempo demorado a concluir o jogo
+        tempoFinal = System.currentTimeMillis();
+        duracaoJogo = tempoFinal - tempoInicial;
+        int segundos = (int) (duracaoJogo / 1000) % 60 ;
+        int minutos = (int) ((duracaoJogo / (1000*60)) % 60);
+        int horas   = (int) ((duracaoJogo / (1000*60*60)) % 24);
+        String gameTime = String.format("%01d:%02d:%02d", horas, minutos, segundos);
+
+        //Adicionar um novo Jogador
+        Player p =  new Player(playerName, gameTime,gameID, currentGameType);
+        lstPlayer.add(p);
+
+        String text = "\t\t\t\t\tGame Statistics\n\n\tPlayer: " + playerName + "\n\tTime: " + gameTime + "\n\tGame Category: " + currentGameType;
+
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Game Completed!");
+        alert.setHeaderText("You have completed the game!");
+        alert.setContentText(text);
+        alert.showAndWait().ifPresent(rs -> {
+        });
+    }
+
+    //Esta função verifica se o jogo está terminado, isto significa que verifica todas as posições e se estão corretamente ordenadas.
+    boolean checkGame(){
+        String checkArray[] = new String[25];
+        for (int i = 0; i < 25; i++) {
+            checkArray[i] = lstCell.get(i).getBtnText();
+        }
+        switch (currentGameType) {
+            case "Decimal":
+                return checkArray(stbtDec, checkArray);
+            case "Roman":
+                return checkArray(stbtRom, checkArray);
+            case "Alphabet":
+                return checkArray(stbtAlph, checkArray);
+            case "Hexadecimal":
+                return checkArray(stbtHex, checkArray);
+            default:
+                return false;
+        }
+    }
+
+    //Esta função compara as 2 arrays de strings
+    boolean checkArray(String[] stArray, String[] checkArray){
+        for (int i = 0; i < 25; i++) {
+            if (checkArray[i] != stArray[i]) {
+                return false;
+            }
+        }
+        return true;
     }
 }
