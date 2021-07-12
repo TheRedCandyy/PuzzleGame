@@ -1,11 +1,16 @@
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.ResourceBundle;
+
+import com.mysql.jdbc.Connection;
+import java.sql.*;
+import java.sql.Date;
+
+import java.time.format.DateTimeFormatter;  
+import java.time.LocalDateTime; 
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -16,15 +21,25 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
+
+import java.util.*;
+import static java.lang.System.*;
 
 public class Controller implements Initializable{
 
@@ -32,6 +47,19 @@ public class Controller implements Initializable{
     Button bt[] = new Button[25];
     String stbtDec[] = {"0", "", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"};
     List <Cell> lstCell = new ArrayList<Cell>();
+    List <Player> lstPlayer = new ArrayList<Player>();
+
+    //Dados realcionados com a base de dados
+    static java.sql.Connection conn;
+	static Statement st ;
+	static ResultSet rs ;
+    static int dev;
+    static boolean ligacaoDB = false;
+
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");  
+
+    final ObservableList<Player> jogadores =  FXCollections.observableArrayList();
+        
 
     // FXML
     @FXML
@@ -54,6 +82,49 @@ public class Controller implements Initializable{
 
     @FXML
     private GridPane gamePagePane;
+    
+    @FXML
+    private AnchorPane statisticsPageAnchor;
+
+    @FXML
+    private Pane statisticsPane;
+
+    @FXML
+    private TableView<Player> statsTable;
+
+    @FXML
+    private TableColumn<Player, String> tableColFirstName;
+
+    @FXML
+    private TableColumn<Player, String> tableColLastName;
+
+    @FXML
+    private TableColumn<Player, String> tableColDate;
+
+    @FXML
+    private TableColumn<Player, String> tableColCategory;
+
+    @FXML
+    private TableColumn<Player, Integer> tableColTime;
+    
+    @FXML
+    private Label labelBdConn;
+
+    @FXML
+    private Label labelDbStatus;
+
+    @FXML
+    private Label labelLastDbUpdate;
+
+    @FXML
+    private Label labelUpdateDate;
+
+    @FXML
+    private Button btnRefreshStats;
+
+    @FXML
+    private Button btnDeleteStats;
+
 
     //Define o tipo de jogo como decimal e corre o metodo `changeGameType` que popula a classe e os butoes
     @FXML
@@ -109,6 +180,8 @@ public class Controller implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle rb){
         drawButtons();
+        //Connecção com a base de dados
+        connectToDatabase();
     }
 
     /*void addBackgroundImage() throws FileNotFoundException {
@@ -116,7 +189,96 @@ public class Controller implements Initializable{
                 "C:\\Users\\Alexandre Tavares\\OneDrive\\Documentos\\GitHub\\PuzzleGame\\PuzzleGame\\img\\capa.jpg")));
         // mainPageAnchor.getChildren().add(imgv);
     }*/
+
+    @FXML
+    void refreshStats(ActionEvent event){
+        //Reconecção com a base de dados e posteriro população da tabela de records
+        connectToDatabase();
+    }
+    @FXML
+    void DeleteStat(ActionEvent event){
+
+    }
+
+    void connectToDatabase(){
+        try {
+
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/puzzlegame","root","");
+            ligacaoDB = true;
+            
+           if (ligacaoDB){ //Se existir uma conecção com sucesso
+                //Alteração da label de status da conecção
+                labelDbStatus.setText("Connected");
+                labelDbStatus.setTextFill(Color.web("green", 1));
+                //População da tabela de resultados
+                drawStatsTable();
+                //Aletração da label da data de refresh
+                LocalDateTime dateTime = LocalDateTime.now();  
+                String data = dateTime.format(dtf); 
+                labelUpdateDate.setText(data);
+                //Encerra a conecção com a base de dados
+                conn.close();
+           }
+
+         }catch(Exception exc) { //Se a conecção não obtiver sucesso
+            exc.printStackTrace();
+            ligacaoDB = false;
+            //Alteração da label de status da conecção
+            labelDbStatus.setText("Disconnected");
+            labelDbStatus.setTextFill(Color.web("red", 1));
+        }
+    }
+
     
+    void drawStatsTable(){
+
+        statsTable.setId("statsTable");
+
+        jogadores.clear();
+
+        String queryPlayerStats = "SELECT * FROM playerStats_OrdBy_Name";
+        
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            st = conn.createStatement();
+            rs = st.executeQuery(queryPlayerStats);
+        
+            while(rs.next()){
+                String nome = rs.getString("firstName");
+                String apleido = rs.getString("lastName");
+                String data = rs.getDate("date").toString();
+                int jogo = rs.getInt("game");
+                String categoria = rs.getString("category");
+                int tempo = rs.getInt("time")/60;
+
+                Player pl = new Player(nome,apleido,tempo,jogo,data,categoria);
+                jogadores.add(pl);
+            }
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+        
+
+        tableColFirstName.setCellValueFactory(
+            new PropertyValueFactory<Player,String>("firstName") );
+
+        tableColLastName.setCellValueFactory(
+            new PropertyValueFactory<Player,String>("lastName") );
+
+        tableColDate.setCellValueFactory(
+            new PropertyValueFactory<Player,String>("date") );
+
+        tableColCategory.setCellValueFactory(
+            new PropertyValueFactory<Player,String>("category") );    
+
+        tableColTime.setCellValueFactory(
+            new PropertyValueFactory<Player,Integer>("gameTime") );    
+        
+        statsTable.setItems(jogadores);
+
+        
+    }
     void drawButtons() {
         // Game Panel Layout
         gamePagePane.setAlignment(Pos.TOP_CENTER);
