@@ -4,7 +4,8 @@ import java.net.URL;
 import com.mysql.jdbc.Connection;
 import java.sql.*;
 import java.sql.Date;
-import java.time.format.DateTimeFormatter;  
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
 import java.time.LocalDateTime; 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -39,7 +40,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
-
 import java.util.*;
 import static java.lang.System.*;
 
@@ -303,13 +303,13 @@ public class Controller implements Initializable{
         
             while(rs.next()){
                 String nome = rs.getString("firstName");
-                String apleido = rs.getString("lastName");
+                String apelido = rs.getString("lastName");
                 String data = rs.getDate("date").toString();
                 int jogo = rs.getInt("game");
                 String categoria = rs.getString("category");
-                int tempo = rs.getInt("time")/60;
+                String tempo = rs.getString("time");
 
-                Player pl = new Player(nome,apleido,tempo,jogo,data,categoria);
+                Player pl = new Player(nome,apelido,tempo,jogo,data,categoria);
                 jogadores.add(pl);
             }
         }catch(Exception e) {
@@ -610,9 +610,12 @@ public class Controller implements Initializable{
         int minutos = (int) ((duracaoJogo / (1000*60)) % 60);
         int horas   = (int) ((duracaoJogo / (1000*60*60)) % 24);
         String gameTime = String.format("%01d:%02d:%02d", horas, minutos, segundos);
+        String date = LocalDate.now().toString();
 
         //Adicionar um novo Jogador
-        Player p =  new Player(playerName, gameTime,gameID, currentGameType);
+        String firstName = "";
+        String lastName = "";
+        Player p =  new Player(firstName, lastName, gameTime, gameID, date, currentGameType);
         lstPlayer.add(p);
 
         String text = "\t\t\t\t\tGame Statistics\n\n\tPlayer: " + playerName + "\n\tTime: " + gameTime + "\n\tGame Category: " + currentGameType;
