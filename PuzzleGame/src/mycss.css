@@ -13,3 +13,6 @@
 #statsTable{
     -fx-color: #b7b7a4;
 }
+#statsTable .table-column {
+    -fx-alignment: CENTER;
+  }
