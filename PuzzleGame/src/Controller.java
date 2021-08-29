@@ -48,10 +48,14 @@ public class Controller implements Initializable{
     // Butões
     Button bt[] = new Button[25];
     String stbtDec[] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", ""};
+    String stbtDec1[] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", ""};
     String stbtRom[] = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX", "XX", "XXI", "XXII", "XXIII", "XXIV", ""};
+    String stbtRom1[] = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX", "XX", "XXI", "XXII", "XXIII", "XXIV", ""};
     String stbtAlph[] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", ""};
+    String stbtAlph1[] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", ""};
     String stbtHex[] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "10", "11", "12", "13", "14", "15", "16", "17", ""};
-    String stbtTesting[] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "", "23"};
+    String stbtHex1[] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "10", "11", "12", "13", "14", "15", "16", "17", ""};
+    String stbtTesting[] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "", "21", "22", "23"};
     String stbtCat[];
     String currentGameType;
     List <Cell> lstCell = new ArrayList<Cell>();
@@ -60,8 +64,8 @@ public class Controller implements Initializable{
 
     //Dados relacionados com a base de dados
     static java.sql.Connection conn;
-	  static Statement st ;
-	  static ResultSet rs ;
+    static Statement st ;
+    static ResultSet rs ;
     static int dev;
     static boolean ligacaoDB = false;
 
@@ -73,6 +77,7 @@ public class Controller implements Initializable{
     int movesAmount = 0;
     int gameID = 0;
     String playerName = "";
+    boolean inGame = false;
 
     long tempoInicial;
     long tempoFinal;
@@ -155,45 +160,143 @@ public class Controller implements Initializable{
     //Define o tipo de jogo como decimal e corre o metodo `changeGameType` que popula a classe e os butoes
     @FXML
     void setDecimalGame(ActionEvent event) {
-        stbtCat = stbtDec;
-        changeGameType();
-        currentGameType = "Decimal";
+        if (inGame == true) {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Change game type");
+            alert.setHeaderText("By changing game type you will reset your game!");
+            alert.setContentText("Are you sure?");
+            ButtonType buttonYes = new ButtonType("Yes");
+            ButtonType buttonNo = new ButtonType("No");
+
+            alert.getButtonTypes().setAll(buttonYes,buttonNo);
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == buttonYes) {
+                stbtCat = stbtDec;
+                changeGameType();
+                currentGameType = "Decimal";
+            }
+        }else{
+            stbtCat = stbtDec;
+            changeGameType();
+            currentGameType = "Decimal";
+        }
     }
 
     //Define o tipo de jogo como romano e corre o metodo `changeGameType` que popula a classe e os butoes
     @FXML
     void setRomanGame(ActionEvent event) {
-        stbtCat = stbtRom;
-        changeGameType();
-        currentGameType = "Roman";
+        if (inGame == true) {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Change game type");
+            alert.setHeaderText("By changing game type you will reset your game!");
+            alert.setContentText("Are you sure?");
+            ButtonType buttonYes = new ButtonType("Yes");
+            ButtonType buttonNo = new ButtonType("No");
+
+            alert.getButtonTypes().setAll(buttonYes,buttonNo);
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == buttonYes) {
+                stbtCat = stbtRom;
+                changeGameType();
+                currentGameType = "Roman";
+            }
+        }else{
+            stbtCat = stbtRom;
+            changeGameType();
+            currentGameType = "Roman";
+        }
     }
 
     //Define o tipo de jogo como alfabeto e corre o metodo `changeGameType` que popula a classe e os butoes
     @FXML
     void setAlphabetGame(ActionEvent event) {
-        stbtCat = stbtAlph;
-        changeGameType();
-        currentGameType = "Alphabet";
+        if (inGame == true) {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Change game type");
+            alert.setHeaderText("By changing game type you will reset your game!");
+            alert.setContentText("Are you sure?");
+            ButtonType buttonYes = new ButtonType("Yes");
+            ButtonType buttonNo = new ButtonType("No");
+
+            alert.getButtonTypes().setAll(buttonYes,buttonNo);
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == buttonYes) {
+                stbtCat = stbtAlph;
+                changeGameType();
+                currentGameType = "Alphabet";
+            }
+        }else{
+            stbtCat = stbtAlph;
+            changeGameType();
+            currentGameType = "Alphabet";
+        }
     }
 
     //Define o tipo de jogo como hexadecimal e corre o metodo `changeGameType` que popula a classe e os butoes
     @FXML
     void setHexadecimalGame(ActionEvent event) {
-        stbtCat = stbtHex;
-        changeGameType();
-        currentGameType = "Hexadecimal";
+        if (inGame == true) {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Change game type");
+            alert.setHeaderText("By changing game type you will reset your game!");
+            alert.setContentText("Are you sure?");
+            ButtonType buttonYes = new ButtonType("Yes");
+            ButtonType buttonNo = new ButtonType("No");
+
+            alert.getButtonTypes().setAll(buttonYes,buttonNo);
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == buttonYes) {
+                stbtCat = stbtHex;
+                changeGameType();
+                currentGameType = "Hexadecimal";
+            }
+        }else{
+            stbtCat = stbtHex;
+            changeGameType();
+            currentGameType = "Hexadecimal";
+        }
     }
     
     //Começa um jogo
     @FXML
-    void startGame(ActionEvent event) {
-        tempoInicial = System.currentTimeMillis();
-        playerName = "NAME UNDEFINED";
-        for (int i = 0; i < 25; i++) {
-                bt[i].setDisable(false);
+    void startGame() {
+        if (currentGameType.isEmpty()) {
+            return;
         }
-        movesAmount = 0;
-        gameID++;
+        if (inGame == false) {
+            randomizeBtnData();
+            inGame = true;
+            tempoInicial = System.currentTimeMillis();
+            playerName = "NAME UNDEFINED";
+            for (int i = 0; i < 25; i++) {
+                    bt[i].setDisable(false);
+            }
+            movesAmount = 0;
+            gameID++;
+            menuPlayGame.setText("Restart Game");
+        }
+        else if (inGame == true) {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Reset Game");
+            alert.setHeaderText("You are about to reset your game!");
+            alert.setContentText("Are you sure?");
+            ButtonType buttonYes = new ButtonType("Yes");
+            ButtonType buttonNo = new ButtonType("No");
+
+            alert.getButtonTypes().setAll(buttonYes,buttonNo);
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == buttonYes) {
+                randomizeBtnData();
+                tempoInicial = System.currentTimeMillis();
+                movesAmount = 0;
+                gameID++;
+            }
+        }
     }
 
     @FXML
@@ -237,8 +340,9 @@ public class Controller implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle rb){
         drawButtons();
+        menuPlayGame.setDisable(true);
         //Connecção com a base de dados
-        connectToDatabase();
+        //connectToDatabase();
     }
 
     /*void addBackgroundImage() throws FileNotFoundException {
@@ -359,9 +463,12 @@ public class Controller implements Initializable{
 
     //Faz a reordenação aleatoria da string com o texto para os butoes
     void randomizeBtnData(){
-		List<String> intList = Arrays.asList(stbtCat);
-		Collections.shuffle(intList);
-		intList.toArray(stbtCat);
+		List<String> stList = new ArrayList<>();
+        for (int i = 0; i < stbtCat.length; i++) {
+            stList.add(stbtCat[i]);
+        }
+		Collections.shuffle(stList);
+		stList.toArray(stbtCat);
     }
 
     //Popula a classe dos butões
@@ -369,11 +476,16 @@ public class Controller implements Initializable{
         lstCell.clear();
         Cell c;
         for (int i = 0; i < 25; i++) {
-            if (stbtCat[i].equals("")) {
+            if (stbtTesting[i].equals("")) {
+                c = new Cell(stbtTesting[i], i, true);
+            }else{
+                c = new Cell(stbtTesting[i], i, false);
+            }
+            /*if (stbtCat[i].equals("")) {
                 c = new Cell(stbtCat[i], i, true);
             }else{
                 c = new Cell(stbtCat[i], i, false);
-            }
+            }*/
             lstCell.add(c);
         }
     }
@@ -386,6 +498,7 @@ public class Controller implements Initializable{
     }
 
     void changeGameType(){
+        menuPlayGame.setDisable(false);
         randomizeBtnData();
         populateClass();
         addButtonText();
@@ -584,7 +697,7 @@ public class Controller implements Initializable{
                         bt[i+1].setText(lstCell.get(i+1).getBtnText());
                     }
                 }
-                if(lstCell.get(i).ishole()){
+                if(!lstCell.get(i).ishole()){
                     Move m  = new Move(movesAmount, lstCell.get(i).getPosition(), gameID);
                     lstMove.add(m);
                     movesAmount++;
@@ -630,31 +743,29 @@ public class Controller implements Initializable{
 
     //Esta função verifica se o jogo está terminado, isto significa que verifica todas as posições e se estão corretamente ordenadas.
     boolean checkGame(){
-        String checkArray[] = new String[25];
-        for (int i = 0; i < 25; i++) {
-            checkArray[i] = lstCell.get(i).getBtnText();
-        }
         switch (currentGameType) {
             case "Decimal":
-                return checkArray(stbtDec, checkArray);
+                return checkArray(stbtDec1);
             case "Roman":
-                return checkArray(stbtRom, checkArray);
+                return checkArray(stbtRom1);
             case "Alphabet":
-                return checkArray(stbtAlph, checkArray);
+                return checkArray(stbtAlph1);
             case "Hexadecimal":
-                return checkArray(stbtHex, checkArray);
+                return checkArray(stbtHex1);
             default:
                 return false;
         }
     }
 
     //Esta função compara as 2 arrays de strings
-    boolean checkArray(String[] stArray, String[] checkArray){
+    boolean checkArray(String[] stArray){
         for (int i = 0; i < 25; i++) {
-            if (checkArray[i] != stArray[i]) {
+            if (lstCell.get(i).getBtnText() != stArray[i]) {
+                System.out.println("False");
                 return false;
             }
         }
+        System.out.println("True");
         return true;
     }
 }
