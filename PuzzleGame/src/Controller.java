@@ -1,3 +1,4 @@
+import java.io.Console;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
@@ -27,6 +28,7 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
@@ -140,7 +142,7 @@ public class Controller implements Initializable{
 
     @FXML
     private TableColumn<Player, Integer> tableColTime;
-    
+
     @FXML
     private Label labelBdConn;
 
@@ -365,7 +367,6 @@ public class Controller implements Initializable{
         connectToDatabase();
     }
 
-    
     @FXML
     void DeleteStat(ActionEvent event){
 
@@ -407,6 +408,7 @@ public class Controller implements Initializable{
         statsTable.setId("statsTable");
         jogadores.clear();
         String queryPlayerStats = "SELECT * FROM playerStats_OrdBy_Name";
+       
         
         try{
             Class.forName("com.mysql.jdbc.Driver");
@@ -424,15 +426,15 @@ public class Controller implements Initializable{
                 Player pl = new Player(nome,apelido,tempo,jogo,data,categoria);
                 jogadores.add(pl);
             }
+      
         }catch(Exception e) {
             e.printStackTrace();
         }
-        
         tableColFirstName.setCellValueFactory(
-            new PropertyValueFactory<Player,String>("firstName") );
-
+            new PropertyValueFactory<Player,String>("name1") );
+            
         tableColLastName.setCellValueFactory(
-            new PropertyValueFactory<Player,String>("lastName") );
+            new PropertyValueFactory<Player,String>("name2") );
 
         tableColDate.setCellValueFactory(
             new PropertyValueFactory<Player,String>("date") );
@@ -442,7 +444,7 @@ public class Controller implements Initializable{
 
         tableColTime.setCellValueFactory(
             new PropertyValueFactory<Player,Integer>("gameTime") );    
-        
+
         statsTable.setItems(jogadores);
 
         
@@ -735,6 +737,7 @@ public class Controller implements Initializable{
         //Adicionar um novo Jogador
         String firstName = "";
         String lastName = "";
+
         Player p =  new Player(firstName, lastName, gameTime, gameID, date, currentGameType);
         lstPlayer.add(p);
 
