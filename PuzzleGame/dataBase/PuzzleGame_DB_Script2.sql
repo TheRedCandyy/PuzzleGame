@@ -30,12 +30,12 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `PuzzleGame`.`Game` (
   `game_id` INT NOT NULL AUTO_INCREMENT,
-  `game_time` INT NOT NULL,
+  `game_time` VARCHAR(50) NOT NULL,
   `game_date` DATE NOT NULL,
   `game_category` VARCHAR(50) NOT NULL,
   `Player_player_id` INT NOT NULL,
   PRIMARY KEY (`game_id`),
-  INDEX `fk_Game_Player1_idx` (`Player_player_id` ASC) VISIBLE,
+  INDEX `fk_Game_Player1_idx` (`Player_player_id` ASC),
   CONSTRAINT `fk_Game_Player1`
     FOREIGN KEY (`Player_player_id`)
     REFERENCES `PuzzleGame`.`Player` (`player_id`)
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `PuzzleGame`.`Move` (
   `move_position` VARCHAR(45) NOT NULL,
   `Game_game_id` INT NOT NULL,
   PRIMARY KEY (`move_id`),
-  INDEX `fk_Move_Game_idx` (`Game_game_id` ASC) VISIBLE,
+  INDEX `fk_Move_Game_idx` (`Game_game_id` ASC),
   CONSTRAINT `fk_Move_Game`
     FOREIGN KEY (`Game_game_id`)
     REFERENCES `PuzzleGame`.`Game` (`game_id`)
